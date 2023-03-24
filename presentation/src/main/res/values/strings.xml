@@ -1,3 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">News</string>
+    <string name="search_title" tools:ignore="ExtraTranslation">search for news</string>
 </resources>

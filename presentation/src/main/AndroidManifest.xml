@@ -4,7 +4,7 @@
     package="com.topan.presentation">
     <application>
         <activity
-            android:name=".MainActivity"
+            android:name=".features.home.HomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

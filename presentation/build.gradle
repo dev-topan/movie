@@ -41,5 +41,6 @@ dependencies {
     implementation androidLibs.values()
     implementation testingLibs.values()
     implementation koinLibs.values()
+    implementation coroutineLibs.values()
     implementation glideLibs.values()
 }
