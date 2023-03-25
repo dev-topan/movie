@@ -19,4 +19,3 @@ abstract class BaseViewModel: ViewModel(), CoroutineScope {
         job.cancel()
     }
 }
-
