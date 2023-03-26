@@ -53,7 +53,7 @@ class HomeViewModel(
 
     private fun handleSuccessGetSourceList(response: SourceList) {
         if (response.status != "ok") return setState(State.ShowError("Error Occurred"))
-        setState(State.ShowSourceList(response.sources))
+        setState(State.ShowSourceList(response.sources ?: emptyList()))
     }
 
     private fun setState(_state: State) {

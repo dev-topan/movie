@@ -18,6 +18,12 @@ class SourceListAdapter: RecyclerView.Adapter<SourceListAdapter.ViewHolder>() {
             notifyItemRangeChanged(emptyInt(), this.itemCount)
         }
 
+    private var clickListener: (String) -> Unit = {}
+
+    fun onItemClickListener(callBack: (String) -> Unit) {
+        clickListener = callBack
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_source, parent, false)
@@ -30,10 +36,13 @@ class SourceListAdapter: RecyclerView.Adapter<SourceListAdapter.ViewHolder>() {
         holder.bind(source = sourceList[position])
     }
 
-    class ViewHolder(private val binding: ItemSourceBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemSourceBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(source: SourceItem) {
             binding.titleTextView.text = source.name
             binding.descriptionTextView.text = source.description
+            binding.root.setOnClickListener {
+                source.id?.let(clickListener)
+            }
         }
     }
 }

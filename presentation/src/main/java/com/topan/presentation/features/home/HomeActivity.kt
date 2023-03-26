@@ -1,9 +1,10 @@
 package com.topan.presentation.features.home
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -11,6 +12,7 @@ import com.google.android.material.tabs.TabLayout.Tab
 import com.topan.domain.model.SourceItem
 import com.topan.presentation.R
 import com.topan.presentation.databinding.ActivityHomeBinding
+import com.topan.presentation.features.articles.ArticleListActivity
 import com.topan.presentation.features.home.HomeViewModel.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -45,6 +47,11 @@ class HomeActivity : AppCompatActivity() {
         binding.sourceRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.sourceRecyclerView.adapter = sourceListAdapter
         binding.sourceRecyclerView.itemAnimator = null
+        sourceListAdapter.onItemClickListener {
+            val intent = Intent(this, ArticleListActivity::class.java)
+            intent.putExtra(ArticleListActivity.SOURCE_KEY, it)
+            startActivity(intent)
+        }
     }
 
     private fun subscribeState() = viewModel.state.observe(this) {
@@ -58,7 +65,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showError(errorMessage: String) {
         //TODO: add error dialog
-        Log.e("M-NEWS", "showError: $errorMessage", )
+        Log.e("M-NEWS", "showError: $errorMessage")
     }
 
     private fun showLoading(isLoading: Boolean) {

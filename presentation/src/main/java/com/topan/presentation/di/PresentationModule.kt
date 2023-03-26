@@ -1,5 +1,6 @@
 package com.topan.presentation.di
 
+import com.topan.presentation.features.articles.ArticleListViewModel
 import com.topan.presentation.features.home.HomeViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -9,4 +10,5 @@ import org.koin.dsl.module
  */
 val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
+    viewModel { ArticleListViewModel(get()) }
 }
