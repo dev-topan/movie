@@ -14,7 +14,7 @@ suspend fun <T> call(apiCall: suspend () -> Response<T>): ResultCall<T> {
     return try {
         val result = apiCall()
         if (result.isSuccessful) return ResultCall.Success(result.body()!!)
-        ResultCall.Failed("${result.errorBody()}")
+        ResultCall.Failed("Internal server error!")
     } catch (exc: Exception) {
         getErrorDescription(exc)
     }

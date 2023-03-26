@@ -24,6 +24,7 @@ interface NewsServices {
         @Query("language") language: String = BuildConfig.LANGUAGE,
         @Query("sources") source: String,
         @Query("pageSize") pageSize: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("q") query: String
     ): Response<ArticleList>
 }

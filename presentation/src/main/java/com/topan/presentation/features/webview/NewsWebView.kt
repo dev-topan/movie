@@ -2,6 +2,7 @@ package com.topan.presentation.features.webview
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MenuItem
 import android.webkit.WebChromeClient
 import androidx.appcompat.app.AppCompatActivity
 import com.topan.domain.utils.emptyString
@@ -31,6 +32,8 @@ class NewsWebView: AppCompatActivity() {
     private fun setupToolbar() {
         supportActionBar?.title = newsUrl
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.elevation = 0f
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -39,7 +42,22 @@ class NewsWebView: AppCompatActivity() {
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
-        loadUrl(newsUrl)
+        loadUrl(newsUrl.validateUrl())
+    }
+
+    private fun String.validateUrl(): String {
+        if (startsWith("http://")) return replace("http://", "https://")
+        return this
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

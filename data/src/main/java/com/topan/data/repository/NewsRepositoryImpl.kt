@@ -17,9 +17,12 @@ class NewsRepositoryImpl(private val services: NewsServices): NewsRepository {
 
     override suspend fun getArticleList(
         source: String,
+        query: String,
         pageSize: Int,
         page: Int
     ): ResultCall<ArticleList> {
-        return call { services.getArticleList(source = source, pageSize = pageSize, page = page) }
+        return call {
+            services.getArticleList(source = source, query = query, pageSize = pageSize, page = page)
+        }
     }
 }

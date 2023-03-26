@@ -9,5 +9,10 @@ import com.topan.domain.utils.ResultCall
  */
 interface NewsRepository {
     suspend fun getSourceList(category: String): ResultCall<SourceList>
-    suspend fun getArticleList(source: String, pageSize: Int, page: Int): ResultCall<ArticleList>
+    suspend fun getArticleList(
+        source: String,
+        query: String,
+        pageSize: Int,
+        page: Int
+    ): ResultCall<ArticleList>
 }

@@ -16,7 +16,7 @@ android {
 
         buildConfigField "String", "BASE_URL", "\"https://newsapi.org/v2/\""
         buildConfigField "String", "LANGUAGE", "\"en\""
-        buildConfigField "String", "API_KEY", "\"4c48b880326c43cd99c0f7abaed20182\""
+        buildConfigField "String", "API_KEY", "\"232a979e97a64d5aa54d2afe0ab5ca94\""
     }
 
     buildTypes {

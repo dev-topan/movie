@@ -2,24 +2,27 @@ package com.topan.presentation.features.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import com.topan.domain.model.SourceItem
+import com.topan.domain.utils.emptyString
 import com.topan.presentation.R
 import com.topan.presentation.databinding.ActivityHomeBinding
 import com.topan.presentation.features.articles.ArticleListActivity
 import com.topan.presentation.features.home.HomeViewModel.*
+import com.topan.presentation.utils.Dialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModel()
     private val sourceListAdapter = SourceListAdapter()
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +67,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showError(errorMessage: String) {
-        //TODO: add error dialog
-        Log.e("M-NEWS", "showError: $errorMessage")
+        Dialog.show(this, errorMessage)
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -86,6 +88,7 @@ class HomeActivity : AppCompatActivity() {
         }
         addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: Tab?) {
+                if (::searchView.isInitialized) searchView.setQuery(emptyString(), false)
                 tab?.text?.let { viewModel.onEvent(Event.OnGetSourceList(it.toString())) }
             }
 
@@ -98,6 +101,21 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
+        val menuItem = menu?.findItem(R.id.search_view)
+        searchView = menuItem?.actionView as SearchView
+        searchView.queryHint = getString(R.string.search_for_sources)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                viewModel.onEvent(Event.OnSearch(p0 ?: emptyString()))
+                return  false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if (p0 == emptyString()) viewModel.onEvent(Event.OnSearch(p0))
+                return true
+            }
+
+        })
         return true
     }
 }
