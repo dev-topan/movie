@@ -11,7 +11,7 @@ import com.topan.presentation.databinding.ItemSourceBinding
 /**
  * Created by Topan E on 25/03/23.
  */
-class SourceListAdapter: RecyclerView.Adapter<SourceListAdapter.ViewHolder>() {
+class SourceListAdapter : RecyclerView.Adapter<SourceListAdapter.ViewHolder>() {
     var sourceList = listOf<SourceItem>()
         set(value) {
             field = value
@@ -36,11 +36,12 @@ class SourceListAdapter: RecyclerView.Adapter<SourceListAdapter.ViewHolder>() {
         holder.bind(source = sourceList[position])
     }
 
-    inner class ViewHolder(private val binding: ItemSourceBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(source: SourceItem) {
-            binding.titleTextView.text = source.name
-            binding.descriptionTextView.text = source.description
-            binding.root.setOnClickListener {
+    inner class ViewHolder(private val binding: ItemSourceBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(source: SourceItem) = with(binding) {
+            titleTextView.text = source.name
+            descriptionTextView.text = source.description
+            root.setOnClickListener {
                 source.id?.let(clickListener)
             }
         }

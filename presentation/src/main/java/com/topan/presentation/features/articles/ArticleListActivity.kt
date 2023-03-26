@@ -1,5 +1,6 @@
 package com.topan.presentation.features.articles
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,8 @@ import com.topan.domain.model.ArticleItem
 import com.topan.domain.utils.emptyString
 import com.topan.presentation.databinding.ActivityArticlesBinding
 import com.topan.presentation.features.articles.ArticleListViewModel.*
+import com.topan.presentation.features.webview.NewsWebView
+import com.topan.presentation.features.webview.NewsWebView.Companion.URL_KEY
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -25,6 +28,7 @@ class ArticleListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViwBinding()
+        setupToolbar()
         setupInitialEvent()
         setupRecyclerView()
     }
@@ -32,6 +36,11 @@ class ArticleListActivity : AppCompatActivity() {
     private fun setupViwBinding() {
         binding = ActivityArticlesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.elevation = 0f
     }
 
     private fun setupInitialEvent() {
@@ -44,7 +53,9 @@ class ArticleListActivity : AppCompatActivity() {
         binding.articlesRecyclerView.adapter = articleListAdapter
         binding.articlesRecyclerView.itemAnimator = null
         articleListAdapter.onItemClickListener {
-
+            val intent = Intent(this, NewsWebView::class.java)
+            intent.putExtra(URL_KEY, it)
+            startActivity(intent)
         }
     }
 

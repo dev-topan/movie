@@ -48,11 +48,13 @@ class ArticleListAdapter: RecyclerView.Adapter<ArticleListAdapter.ViewHolder>() 
 
     inner class ViewHolder(private val binding: ItemArticleBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(article: ArticleItem) = with (binding){
-            authorTextView.text = article.author
+            authorTextView.text = article.source?.name
             titleTextView.text = article.title
             showBanner(article.urlToImage ?: emptyString())
             dateTextView.text = article.publishedAt
-            article.url?.let(clickListener)
+            root.setOnClickListener {
+                article.url?.let(clickListener)
+            }
         }
 
         private fun showBanner(urlToImage: String) {
